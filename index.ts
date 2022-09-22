@@ -47,8 +47,11 @@ connectToDatabase().then(()=>{
         for (let user of users) {
           tokens.push(user.deviceToken)
         }
-        sendPushNotification(tokens)
-        res.status(200).send({ status: "success" });
+        let response:{sent:boolean} = await sendPushNotification(tokens)
+        if(response.sent){
+          res.status(200).send({ status: "success" });
+        }
+       
       } catch (error: any) {
         res.status(500).send(error.message);
     } 

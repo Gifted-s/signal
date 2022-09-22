@@ -56,8 +56,10 @@ const port = process.env.PORT || 8000;
             for (let user of users) {
                 tokens.push(user.deviceToken);
             }
-            (0, notify_service_1.sendPushNotification)(tokens);
-            res.status(200).send({ status: "success" });
+            let response = yield (0, notify_service_1.sendPushNotification)(tokens);
+            if (response.sent) {
+                res.status(200).send({ status: "success" });
+            }
         }
         catch (error) {
             res.status(500).send(error.message);
