@@ -32,13 +32,11 @@ const port = process.env.PORT || 8000;
             const userExist = (yield ((_a = database_service_1.collections === null || database_service_1.collections === void 0 ? void 0 : database_service_1.collections.users) === null || _a === void 0 ? void 0 : _a.findOne({ phone: user.phone })));
             if (!userExist) {
                 const result = yield ((_b = database_service_1.collections === null || database_service_1.collections === void 0 ? void 0 : database_service_1.collections.users) === null || _b === void 0 ? void 0 : _b.insertOne(user));
-                result
+                return result
                     ? res.status(200).send({ message: `Successfully created a new user with id ${result.insertedId}` })
                     : res.status(500).send({ message: "Failed to create a new user." });
             }
-            else {
-                res.status(200).send({ message: `User already exist`, alreadyExist: true });
-            }
+            return res.status(200).send({ message: `User already exist`, alreadyExist: true });
         }
         catch (error) {
             console.error(error);
